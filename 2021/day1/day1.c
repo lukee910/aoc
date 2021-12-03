@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+// Note: Hard coded file paths expect the console to run in the 2021 directory
+
 void task1();
 void task2();
 
@@ -11,7 +13,7 @@ int main() {
 }
 
 void task1() {
-  FILE *input = fopen("day1/t1input.txt", "r");
+  FILE *input = fopen("day1/d1input.txt", "r");
 
   int prev = 0;
   int curr = 0;
@@ -34,7 +36,7 @@ void task1() {
 }
 
 void task2() {
-  FILE *input = fopen("day1/t1input.txt", "r");
+  FILE *input = fopen("day1/d1input.txt", "r");
 
   int window1 = 0;
   int window2 = 0;
