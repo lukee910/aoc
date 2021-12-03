@@ -119,7 +119,7 @@ int findval(int in[NUM_MEASURES][WIDTH_MEASURES], int takemaj)
   memcpy(values, in, NUM_MEASURES * WIDTH_MEASURES * sizeof(int));
 
   int count = NUM_MEASURES;
-  int col = WIDTH_MEASURES - 1;
+  int col = 0;
   int next = 0;
   while (count > 1)
   {
@@ -143,11 +143,14 @@ int findval(int in[NUM_MEASURES][WIDTH_MEASURES], int takemaj)
     {
       if (values[i][col] == take1)
       {
-        memcpy(values[next++], values[i], WIDTH_MEASURES * sizeof(int));
+        int temp[12];
+        memcpy(temp, values[i], WIDTH_MEASURES * sizeof(int));
+        memcpy(values[next++], temp, WIDTH_MEASURES * sizeof(int));
       }
     }
 
-    count = next - 1;
+    col++;
+    count = next;
     next = 0;
   }
   int result = 0;
