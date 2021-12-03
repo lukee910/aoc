@@ -54,4 +54,49 @@ void task1() {
   printf("Depth: %d, Forward pos: %d, Product: %d\n", depth, fwd, depth * fwd);
 }
 
-void task2() {}
+void task2() {
+  FILE *input = fopen("day2/d2input.txt", "r");
+
+  int depth = 0;
+  int fwd = 0;
+  int aim = 0;
+  char nextc = '\0';
+  // Get command by its first char
+  char curr = '\0';
+  int curramount = 0;
+
+  do {
+    nextc = getc(input);
+    // Check EOF for newline before EOF
+    if (nextc == EOF) {
+      break;
+    }
+
+    curr = nextc;
+
+    while ((nextc = getc(input)) != ' ');
+
+    while ((nextc = getc(input)) != '\n' && nextc != EOF) {
+      curramount = curramount * 10 + (nextc - '0');
+    }
+
+    switch (curr)
+    {
+    case 'f':
+      fwd += curramount;
+      depth += aim * curramount;
+      // aim = 0;
+      break;
+    case 'd':
+      aim += curramount;
+      break;
+    case 'u':
+      aim -= curramount;
+      break;
+    }
+
+    curramount = 0;
+  } while (nextc != EOF);
+
+  printf("Depth: %d, Forward pos: %d, Product: %d\n", depth, fwd, depth * fwd);
+}
