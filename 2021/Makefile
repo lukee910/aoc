@@ -16,4 +16,4 @@ day4: day4/day4.c
 	$(CC) $(CFLAGS) -g -o day4/day4 day4/day4.c
 
 clean:
-	rm -f *.o d1 *~
+	rm -f *.o *~

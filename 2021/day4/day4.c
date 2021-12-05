@@ -29,132 +29,61 @@ void task1() {
     }
   }
 
-  // printf("Done reading input: ");
-  // for (int i = 0; i < 100; i++) {
-  //   printf("%d, ", nums[i]);
-  // }
-  // printf("\n");
+  int boards[100][5][5];
+  int remrow[100][5];
+  int remcol[100][5];
+  int sum[100];
 
-  // The board that is drawn first 
-  int first = 0;
-  // The turn in which the first board is completed
-  int firstturn = 100;
-  // The score of the first
-  int firstscore = 0;
+  for (int b = 0; b < 100; b++) {
+    sum[b] = 0;
 
-  // Calculate board win time and values
-  int numboard = 0;
-  while (getc(input) != EOF) {
-    printf("Calculating board %d\n", numboard);
-
-    int board[5][5];
-    // int marked[5][5];
-    int colrem[5];
-    int rowrem[5];
-    int sumunmarked = 0;
-
-    // Clear arrays
     for (int i = 0; i < 5; i++) {
-      // for (int j = 0; j < 5; j++) {
-      //   marked[i][j] = 0;
-      // }
-      colrem[i] = 5;
-      rowrem[i] = 5;
-    }
+      remrow[b][i] = 5;
+      remcol[b][i] = 5;
 
-    // Line i
-    // printf("    Reading board:\n");
-    for (int i = 0; i < 5; i++) {
-      // Entry j on line i
-      // printf("    ");
       for (int j = 0; j < 5; j++) {
-        int c1 = getc(input);
-        // printf("[%d=%c, ", c1, c1);
-        if (c1 == ' ') {
-          c1 = '\0';
-        } else {
-          c1 -= '0';
+        int scanok = fscanf(input, "%d", &boards[b][i][j]);
+        if (!scanok) {
+          printf("Scan error at boards[%d][%d][%d]\n", b, i, j);
+          return;
         }
 
-        int c2 = getc(input);
-        // printf("%d=%c], ", c2, c2);
-        c2 -= '0';
+        sum[b] += boards[b][i][j];
 
-        board[i][j] = (c1 * 10) + c2;
-        sumunmarked += board[i][j];
-        // printf("%d, ", board[i][j]);
-
-        // printf("%d, ", board[i][j]);
-        // printf("[%d, %d]", c1, c2);
-
-        // Read ' ' or '\n'
+        // read ' ' or '\n'
         getc(input);
       }
-      // printf("\n");
     }
-
-    // Check board
-    int turn = 0;
-    int complete = 0;
-    while (turn <= firstturn) {
-      int num = nums[turn];
-      int marked = 0;
-
-      for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 5; j++) {
-          if (board[i][j] == num) {
-            // printf("    Marked %d in turn %d\n", num, turn);
-
-            marked = 1;
-            sumunmarked -= num;
-            if (--rowrem[i] == 0 || --colrem[j] == 0) {
-              printf("    Completed in turn %d\n", turn);
-              complete = 1;
-            }
-            break;
-          }
-        }
-        if (marked) {
-          break;
-        }
-      }
-
-      if (complete) {
-        break;
-      }
-
-      turn++;
-    }
-
-    // Calculate score
-    if (complete) {
-      int score = turn * sumunmarked;
-      if (turn < firstturn || score > firstscore) {
-        first = numboard;
-        firstscore = score;
-        firstturn = turn;
-      } else {
-        printf("Board not taken!\n");
-      }
-    }
-
-    if (numboard == 68) {
-      for (int i = 0; i <= turn; i++) {
-        printf("%d, ", nums[i]);
-      }
-      printf("\n");
-      for(int i = 0; i < 5; i++) {
-        for (int j = 0; j < 5; j++) {
-          printf("%d, ", board[i][j]);
-        }
-        printf("\n");
-      }
-    }
-
-    numboard++;
   }
 
-  printf("Picked board %d after turn %d with a score of %d\n", first, firstturn, firstscore);
+  // O(1) kek
+  for (int n = 0; n < 100; n++) {
+    int num = nums[n];
+
+    // Check for matches
+    for (int b = 0; b < 100; b++) {
+      for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+          if (boards[b][i][j] == num) {
+            sum[b] -= boards[b][i][j];
+            remrow[b][i]--;
+            remcol[b][j]--;
+
+            printf("Matched boards[%d][%d][%d] = %d to num %d in turn %d\n", b, i, j, boards[b][i][j], num, n);
+            printf("Remaining row=%d, col=%d\n", remrow[b][i], remcol[i][j]);
+
+            if (remrow[b][i] == 0 || remcol[b][j] == 0) {
+              int score = num * sum[b];
+              printf("Picked board %d after turn %d with a score of %d\n", b, n, score);
+              return;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  printf("Picked no board\n");
 }
 
 void task2() {
