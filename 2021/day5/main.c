@@ -25,13 +25,13 @@ void task1() {
   }
 
   for (int l = 0; l < 500; l++) {
-    int err = fscanf(input, "%d,%d -> %d,%d\n", &lines[l][0][0], &lines[l][0][1], &lines[l][1][0], &lines[l][1][1]);
-    if (err) {
+    int matched = fscanf(input, "%d,%d -> %d,%d\n", &lines[l][0][0], &lines[l][0][1], &lines[l][1][0], &lines[l][1][1]);
+    if (!matched) {
       printf("Error on reading line %d\n", l);
       return;
     }
 
-    int x1 = lines[l][0][0], x2 = lines[l][0][1], y1 = lines[l][1][0], y2 = lines[l][1][1];
+    int x1 = lines[l][0][0], x2 = lines[l][1][0], y1 = lines[l][0][1], y2 = lines[l][1][1];
 
     if (x1 == x2) {
       if (y1 > y2) {

@@ -45,8 +45,8 @@ void task1(int isfirst) {
       remcol[b][i] = 5;
 
       for (int j = 0; j < 5; j++) {
-        int scanok = fscanf(input, "%d", &boards[b][i][j]);
-        if (!scanok) {
+        int matched = fscanf(input, "%d", &boards[b][i][j]);
+        if (!matched) {
           printf("Scan error at boards[%d][%d][%d]\n", b, i, j);
           return;
         }
