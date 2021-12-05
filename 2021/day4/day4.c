@@ -4,13 +4,13 @@ void task1();
 void task2();
 
 int main() {
-  task1();
-  task2();
+  task1(1);
+  task1(0);
 
   return 0;
 }
 
-void task1() {
+void task1(int isfirst) {
   FILE *input = fopen("day4/input.txt", "r");
 
   int nums[100];
@@ -33,9 +33,12 @@ void task1() {
   int remrow[100][5];
   int remcol[100][5];
   int sum[100];
+  int boardsrem = 100;
+  int completed[100];
 
   for (int b = 0; b < 100; b++) {
     sum[b] = 0;
+    completed[b] = 0;
 
     for (int i = 0; i < 5; i++) {
       remrow[b][i] = 5;
@@ -62,6 +65,10 @@ void task1() {
 
     // Check for matches
     for (int b = 0; b < 100; b++) {
+      if (completed[b]) {
+        continue;
+      }
+
       for (int i = 0; i < 5; i++) {
         for (int j = 0; j < 5; j++) {
           if (boards[b][i][j] == num) {
@@ -69,13 +76,15 @@ void task1() {
             remrow[b][i]--;
             remcol[b][j]--;
 
-            printf("Matched boards[%d][%d][%d] = %d to num %d in turn %d\n", b, i, j, boards[b][i][j], num, n);
-            printf("Remaining row=%d, col=%d\n", remrow[b][i], remcol[i][j]);
-
             if (remrow[b][i] == 0 || remcol[b][j] == 0) {
-              int score = num * sum[b];
-              printf("Picked board %d after turn %d with a score of %d\n", b, n, score);
-              return;
+              boardsrem--;
+              completed[b] = 1;
+
+              if (isfirst || boardsrem == 0) {
+                int score = num * sum[b];
+                printf("Picked board %d after turn %d with a score of %d\n", b, n, score);
+                return;
+              }
             }
           }
         }
