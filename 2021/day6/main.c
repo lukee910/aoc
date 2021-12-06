@@ -14,7 +14,8 @@ struct Feeeeesh
 int main()
 {
   task1();
-  task2();
+  task2(80);
+  task2(256);
 
   return 0;
 }
@@ -63,7 +64,7 @@ void task1()
   // Simulate 80 days
   for (int i = 0; i < 80; i++)
   {
-    printf("Simulating day %d\n", i);
+    // printf("Simulating day %d\n", i);
 
     Feeeeesh *curr = list;
     while (curr != NULL)
@@ -82,10 +83,53 @@ void task1()
 
       curr = curr->next;
     }
-    printf("\n");
   }
 
   printf("Num of feeeeeshes after 80 days: %d\n", size);
 }
 
-void task2() {}
+void task2(int numfeeeeeshes)
+{
+  FILE *input = fopen("day6/input.txt", "r");
+
+  // Init list and first element
+  unsigned long count = 0x0;
+  unsigned long ttr[9] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+  do
+  {
+    int value;
+    int matched = fscanf(input, "%d", &value);
+    if (matched != 1)
+    {
+      printf("Could not match first element\n");
+    }
+    ttr[value]++;
+    count++;
+  } while (getc(input) != EOF);
+
+  printf("Found %lu feeeeeshes\n", count);
+
+  // Simulate numfeeeeeshes days
+  for (int i = 0; i < numfeeeeeshes; i++)
+  {
+    unsigned long repro = ttr[0];
+    for (int i = 1; i < 9; i++)
+    {
+      ttr[i - 1] = ttr[i];
+      ttr[i] = 0;
+    }
+
+    ttr[6] += repro;
+    ttr[8] += repro;
+    unsigned long old = count;
+    count += repro;
+
+    if (old > count)
+    {
+      printf("Overflow on turn %d\n", i);
+      return;
+    }
+  }
+
+  printf("Num of feeeeeshes after %d days: %lu\n", numfeeeeeshes, count);
+}
