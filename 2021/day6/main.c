@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 void task1();
-void task2();
+void task2(int numdays);
 
 struct Feeeeesh
 {
@@ -88,7 +88,7 @@ void task1()
   printf("Num of feeeeeshes after 80 days: %d\n", size);
 }
 
-void task2(int numfeeeeeshes)
+void task2(int numdays)
 {
   FILE *input = fopen("day6/input.txt", "r");
 
@@ -110,7 +110,7 @@ void task2(int numfeeeeeshes)
   printf("Found %lu feeeeeshes\n", count);
 
   // Simulate numfeeeeeshes days
-  for (int i = 0; i < numfeeeeeshes; i++)
+  for (int i = 0; i < numdays; i++)
   {
     unsigned long repro = ttr[0];
     for (int i = 1; i < 9; i++)
@@ -121,15 +121,8 @@ void task2(int numfeeeeeshes)
 
     ttr[6] += repro;
     ttr[8] += repro;
-    unsigned long old = count;
     count += repro;
-
-    if (old > count)
-    {
-      printf("Overflow on turn %d\n", i);
-      return;
-    }
   }
 
-  printf("Num of feeeeeshes after %d days: %lu\n", numfeeeeeshes, count);
+  printf("Num of feeeeeshes after %d days: %lu\n", numdays, count);
 }
