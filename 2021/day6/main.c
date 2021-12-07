@@ -53,19 +53,10 @@ void task1()
   prev->next = NULL;
 
   printf("Found %d feeeeeshes\n", size);
-  // Feeeeesh *curr = list;
-  // while (curr != NULL)
-  // {
-  //   printf("%d, ", curr->countdown);
-  //   curr = curr->next;
-  // }
-  // printf("\n");
 
   // Simulate 80 days
   for (int i = 0; i < 80; i++)
   {
-    // printf("Simulating day %d\n", i);
-
     Feeeeesh *curr = list;
     while (curr != NULL)
     {
@@ -93,15 +84,16 @@ void task2(int numdays)
   FILE *input = fopen("day6/input.txt", "r");
 
   // Init list and first element
-  unsigned long count = 0x0;
-  unsigned long ttr[9] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+  unsigned long count = 0;
+  unsigned long ttr[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
   do
   {
     int value;
     int matched = fscanf(input, "%d", &value);
     if (matched != 1)
     {
-      printf("Could not match first element\n");
+      printf("Error on scan\n");
+      return;
     }
     ttr[value]++;
     count++;
