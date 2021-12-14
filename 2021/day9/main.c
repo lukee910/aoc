@@ -119,6 +119,7 @@ void task2(int numlowpoint)
         }
       }
 
+      // TODO: This line throws
       int redir = ref[mini][minj];
       if (redir == -1)
       {
@@ -164,17 +165,20 @@ void task2(int numlowpoint)
       }
 
       int v = basinsize[k];
-      if (v > max3[0]) {
+      if (v > max3[0])
+      {
         int temp = max3[0];
         max3[0] = v;
         v = temp;
       }
-      if (v > max3[1]) {
+      if (v > max3[1])
+      {
         int temp = max3[1];
         max3[1] = v;
         v = temp;
       }
-      if (v > max3[2]) {
+      if (v > max3[2])
+      {
         max3[2] = v;
       }
     }
